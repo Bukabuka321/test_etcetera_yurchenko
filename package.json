@@ -1,0 +1,15 @@
+{
+  "name": "test_task_yurchenko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c green,blue -t \"HH:mm:ss\" -p \"[{time} • {name}]\t\" \"npm --prefix ./backend run dev\" \"npm --prefix ./frontend run dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
