@@ -21,6 +21,16 @@ function App() {
     }
   };
 
+  const getFeedsFromRss = async () => {
+    try {
+      const response = await axios.get("http://localhost:5005/api/rss");
+    } catch (error) {
+      console.error(error); // Handle the error here
+    }
+    // Reload the window only when API call is completed
+    window.location.reload();
+  };
+
   // Fetch feeds only once when component mounts using useEffect hook
   useEffect(() => {
     getFeeds();
@@ -58,6 +68,7 @@ function App() {
   return (
     <>
       <div className="flex flex-col items-center py-4 gap-4">
+        <button onClick={getFeedsFromRss}>Get news</button>
         {displayFeeds} {/* Display the feeds */}
         <ReactPaginate
           className="flex flex-row gap-3"
