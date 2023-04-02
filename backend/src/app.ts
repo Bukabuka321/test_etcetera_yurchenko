@@ -1,20 +1,22 @@
-import express, { json } from "express";
+import express, { json } from "express"; // Importing express library and json middleware for parsing JSON in request body
+import cors from "cors"; // Importing cors library for Cross-Origin Resource Sharing
+import dotenv from "dotenv"; // Importing dotenv library for environment variable configuration
+import { rssParser } from "./rssParser"; // Importing custom RSS parser function
+import { getFeeds } from "./getFeeds"; // Importing custom `getFeeds` API function to return array of feed items
 
-import cors from "cors";
+dotenv.config(); // Calling `config()` method of dotenv to read environment variables from `.env` file in root directory
+const EXPRESS_PORT = parseInt(process.env.EXPRESS_PORT ?? "5005", 10); // Extracting port number for Express server from environment variables, defaulting to 5005
 
-import dotenv from "dotenv";
+const app = express(); // Creating an instance of Express app
 
-import { rssParser } from "./rssParser";
-dotenv.config();
-const EXPRESS_PORT = parseInt(process.env.EXPRESS_PORT ?? "5005", 10);
+app.use(cors()); // Applying CORS middleware to enable Cross-Origin requests
+app.use(json()); // Applying json middleware to parse incoming JSON data in request body
 
-const app = express();
+// Registering API routes using HTTP GET protocol
+app.get("/api/rss", rssParser); // Route to parse RSS feeds from URLs
+app.get("/api/feeds", getFeeds); // Route to retrieve list of feed items from database
 
-app.use(cors());
-app.use(json());
-
-app.get("/api/feed", rssParser);
-
+// Starting Express server to listen on specific port
 app.listen(EXPRESS_PORT, () => {
-  console.log("Express listening on port", EXPRESS_PORT);
+  console.log("Express listening on port", EXPRESS_PORT); // Logging a message to the console upon successful initialization of server
 });
